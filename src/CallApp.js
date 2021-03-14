@@ -14,11 +14,13 @@ export class CallApp extends React.Component{
       input:{
         to:'',
         from:'',
+        name:'',
         durationMin:5
       },
       errors:{
         toError:'',
-        fromError:''
+        fromError:'',
+        nameError:''
 
       },
       apiSuccess:'',
@@ -43,6 +45,9 @@ export class CallApp extends React.Component{
     let isValid = true;
     const toError = this.validateMobNumber(input.to);
     const fromError = this.validateMobNumber(input.from);
+    if(!input.name || input.name =='undefined'){
+      errors["nameError"]= "Field can not be empty."
+    }
     if(toError!=='Valid'){
       isValid = false;
       errors["toError"] = toError;
@@ -124,9 +129,9 @@ export class CallApp extends React.Component{
           <form className="Input-form"onSubmit={this.handleSubmit} >
             <div>
               <div className="Input-field">
-                <div className="Label">  From number:</div>
+                <div className="Label"> From number:</div>
                 <div className="Input-elem">
-                  <input placeholder="Enter from mobile number" type="text" 
+                  <input placeholder="+919876543210" type="text" 
                   className="input-txt" name="from"
                   value={this.state.input.from} onChange={this.handleChange}
                    />
@@ -138,11 +143,21 @@ export class CallApp extends React.Component{
                 <div className="Input-elem">
                   <input type="text" className="input-txt" name="to" 
                      value={this.state.input.to} onChange={this.handleChange}
-                     placeholder="Enter to mobile number"
+                     placeholder="+919876543210"
                   />
                 </div>
                 <div><label className="Error">{this.state.errors.toError}</label></div>
              
+              </div>
+              <div className="Input-field">
+                <div className="Label"> Caller name</div>
+                <div className="Input-elem">
+                  <input type="text" className="input-txt" name="name" 
+                     value={this.state.input.name} onChange={this.handleChange}
+                     placeholder="Caller name"
+                  />
+                </div>
+                <div><label className="Error">{this.state.errors.nameError}</label></div>
               </div>
               <div className="Input-field">
                 <label className="Label">
@@ -187,6 +202,7 @@ export class CallApp extends React.Component{
         {
           "to": this.state.input.to,
           "from": this.state.input.from,
+          "name":this.state.input.name,
           "durationMin":this.state.input.durationMin
         }
       )
